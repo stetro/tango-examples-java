@@ -14,14 +14,14 @@
    limitations under the License.
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
     <org.rajawali3d.surface.RajawaliSurfaceView
         android:id="@+id/gl_surface_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_gravity="top" />
+        android:layout_gravity="top"/>
 
     <LinearLayout
         android:id="@+id/linearlayout"
@@ -30,184 +30,193 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:paddingLeft="5dp" >
+        android:paddingLeft="5dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/serviceversion" />
+                android:text="@string/serviceversion"/>
 
             <TextView
                 android:id="@+id/version"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
         </LinearLayout>
-        
-         <LinearLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/appversion" />
+                android:text="@string/appversion"/>
 
             <TextView
                 android:id="@+id/appversion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/NA" />
+                android:text="@string/NA"/>
         </LinearLayout>
-           <LinearLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/tangoevent" />
+                android:text="@string/tangoevent"/>
 
             <TextView
                 android:id="@+id/tangoevent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
         </LinearLayout>
-        
-            <LinearLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/start2device" />
+                android:text="@string/start2device"/>
 
         </LinearLayout>
-        
-          <LinearLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-			
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:text="@string/status" />
+                android:text="@string/status"/>
 
-			<TextView
+            <TextView
                 android:id="@+id/status"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
-              
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/posecount" />
+                android:text="@string/posecount"/>
 
-			 <TextView
+            <TextView
                 android:id="@+id/posecount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
-			 
-			 <TextView
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/deltatime" />
+                android:text="@string/deltatime"/>
 
-			 <TextView
+            <TextView
                 android:id="@+id/deltatime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/NA" />
-			 
-			 <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pose" />
-
-			 <TextView
-                android:id="@+id/pose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
-			  <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quat" />
-
-			 <TextView
-                android:id="@+id/quat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/NA" />
-			 
-        </LinearLayout>
-        
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+                android:text="@string/NA"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/averageZ" />
+                android:text="@string/pose"/>
+
+            <TextView
+                android:id="@+id/pose"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quat"/>
+
+            <TextView
+                android:id="@+id/quat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/averageZ"/>
 
             <TextView
                 android:id="@+id/averageZ"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
         </LinearLayout>
-        
-         <LinearLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/pointCount" />
+                android:text="@string/pointCount"/>
 
             <TextView
                 android:id="@+id/pointCount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
         </LinearLayout>
-        
-         <LinearLayout
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/frameDelta" />
+                android:text="@string/frameDelta"/>
 
             <TextView
                 android:id="@+id/frameDelta"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:text="@string/NA" />
+                android:layout_height="wrap_content"
+                android:text="@string/NA"/>
         </LinearLayout>
-           
+
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/export_depth_image"
+        android:text="@string/export_depth_image"/>
 
     <Button
         android:id="@+id/first_person_button"
@@ -219,7 +228,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:paddingRight="5dp"
-        android:text="@string/first_person" />
+        android:text="@string/first_person"/>
 
     <Button
         android:id="@+id/top_down_button"
@@ -229,7 +238,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:paddingRight="5dp"
-        android:text="@string/top_down" />
+        android:text="@string/top_down"/>
 
     <Button
         android:id="@+id/third_person_button"
@@ -240,9 +249,10 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:paddingRight="5dp"
-        android:text="@string/third_person" />
+        android:text="@string/third_person"/>
+
     <com.google.atap.tango.ux.TangoUxLayout
         android:id="@+id/layout_tango"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 </RelativeLayout>

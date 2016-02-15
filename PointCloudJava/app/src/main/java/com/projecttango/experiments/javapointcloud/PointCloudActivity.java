@@ -23,6 +23,7 @@ import com.google.atap.tango.ux.UxExceptionEvent;
 import com.google.atap.tango.ux.UxExceptionEventListener;
 import com.google.atap.tangoservice.Tango;
 import com.google.atap.tangoservice.Tango.OnTangoUpdateListener;
+import com.google.atap.tangoservice.TangoCameraIntrinsics;
 import com.google.atap.tangoservice.TangoConfig;
 import com.google.atap.tangoservice.TangoCoordinateFramePair;
 import com.google.atap.tangoservice.TangoErrorException;
@@ -43,9 +44,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.projecttango.rajawali.ScenePoseCalculator;
 import com.projecttango.tangosupport.TangoPointCloudManager;
 import com.projecttango.tangoutils.TangoPoseUtilities;
 
+import org.rajawali3d.math.Matrix4;
 import org.rajawali3d.scene.ASceneFrameCallback;
 import org.rajawali3d.surface.RajawaliSurfaceView;
 
@@ -67,6 +70,7 @@ public class PointCloudActivity extends Activity implements OnClickListener {
     // Configure the Tango coordinate frame pair
     private static final ArrayList<TangoCoordinateFramePair> FRAME_PAIRS =
             new ArrayList<TangoCoordinateFramePair>();
+
     {
         FRAME_PAIRS.add(new TangoCoordinateFramePair(
                 TangoPoseData.COORDINATE_FRAME_START_OF_SERVICE,
@@ -93,6 +97,7 @@ public class PointCloudActivity extends Activity implements OnClickListener {
     private Button mFirstPersonButton;
     private Button mThirdPersonButton;
     private Button mTopDownButton;
+    private Button mExportDepthImage;
 
     private int mCount;
     private int mPreviousPoseStatus = TangoPoseData.POSE_INVALID;
@@ -177,17 +182,23 @@ public class PointCloudActivity extends Activity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-        case R.id.first_person_button:
-            mRenderer.setFirstPersonView();
-            break;
-        case R.id.third_person_button:
-            mRenderer.setThirdPersonView();
-            break;
-        case R.id.top_down_button:
-            mRenderer.setTopDownView();
-            break;
-        default:
-            Log.w(TAG, "Unrecognized button click.");
+            case R.id.first_person_button:
+                mRenderer.setFirstPersonView();
+                break;
+            case R.id.third_person_button:
+                mRenderer.setThirdPersonView();
+                break;
+            case R.id.top_down_button:
+                mRenderer.setTopDownView();
+                break;
+            case R.id.export_depth_image:
+                TangoXyzIjData latestXyzIj = mPointCloudManager.getLatestXyzIj();
+                TangoCameraIntrinsics cameraIntrinsics = mTango.getCameraIntrinsics(TangoCameraIntrinsics.TANGO_CAMERA_DEPTH);
+                TangoPoseData pointCloudPose = ScenePoseCalculator.matrixToTangoPose(Matrix4.createScaleMatrix(1, 1, 1));
+                DepthImageExporter.exportCurrentDepthImage(this, latestXyzIj, cameraIntrinsics, pointCloudPose);
+                break;
+            default:
+                Log.w(TAG, "Unrecognized button click.");
         }
     }
 
@@ -341,10 +352,10 @@ public class PointCloudActivity extends Activity implements OnClickListener {
         TangoCoordinateFramePair framePair = new TangoCoordinateFramePair();
         framePair.baseFrame = TangoPoseData.COORDINATE_FRAME_IMU;
         framePair.targetFrame = TangoPoseData.COORDINATE_FRAME_CAMERA_COLOR;
-        TangoPoseData imuTColorCameraPose = mTango.getPoseAtTime(0.0,framePair);
+        TangoPoseData imuTColorCameraPose = mTango.getPoseAtTime(0.0, framePair);
 
         framePair.targetFrame = TangoPoseData.COORDINATE_FRAME_CAMERA_DEPTH;
-        TangoPoseData imuTDepthCameraPose = mTango.getPoseAtTime(0.0,framePair);
+        TangoPoseData imuTDepthCameraPose = mTango.getPoseAtTime(0.0, framePair);
 
         framePair.targetFrame = TangoPoseData.COORDINATE_FRAME_DEVICE;
         TangoPoseData imuTDevicePose = mTango.getPoseAtTime(0.0, framePair);
@@ -365,32 +376,32 @@ public class PointCloudActivity extends Activity implements OnClickListener {
 
         @Override
         public void onUxExceptionEvent(UxExceptionEvent uxExceptionEvent) {
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_LYING_ON_SURFACE){
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_LYING_ON_SURFACE) {
                 Log.i(TAG, "Device lying on surface ");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_FEW_DEPTH_POINTS){
-                Log.i(TAG, "Very few depth points in mPoint cloud " );
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_FEW_DEPTH_POINTS) {
+                Log.i(TAG, "Very few depth points in mPoint cloud ");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_FEW_FEATURES){
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_FEW_FEATURES) {
                 Log.i(TAG, "Invalid poses in MotionTracking ");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_INCOMPATIBLE_VM){
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_INCOMPATIBLE_VM) {
                 Log.i(TAG, "Device not running on ART");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_MOTION_TRACK_INVALID){
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_MOTION_TRACK_INVALID) {
                 Log.i(TAG, "Invalid poses in MotionTracking ");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_MOVING_TOO_FAST){
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_MOVING_TOO_FAST) {
                 Log.i(TAG, "Invalid poses in MotionTracking ");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_OVER_EXPOSED){
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_OVER_EXPOSED) {
                 Log.i(TAG, "Camera Over Exposed");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_TANGO_SERVICE_NOT_RESPONDING){
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_TANGO_SERVICE_NOT_RESPONDING) {
                 Log.i(TAG, "TangoService is not responding ");
             }
-            if(uxExceptionEvent.getType() == UxExceptionEvent.TYPE_UNDER_EXPOSED){
-                Log.i(TAG, "Camera Under Exposed " );
+            if (uxExceptionEvent.getType() == UxExceptionEvent.TYPE_UNDER_EXPOSED) {
+                Log.i(TAG, "Camera Under Exposed ");
             }
 
         }
@@ -410,7 +421,7 @@ public class PointCloudActivity extends Activity implements OnClickListener {
      * Sets Text views to display statistics of Poses being received. This also sets the buttons
      * used in the UI.
      */
-    private void setupTextViewsAndButtons(TangoConfig config){
+    private void setupTextViewsAndButtons(TangoConfig config) {
         mPoseTextView = (TextView) findViewById(R.id.pose);
         mQuatTextView = (TextView) findViewById(R.id.quat);
         mPoseCountTextView = (TextView) findViewById(R.id.posecount);
@@ -429,6 +440,8 @@ public class PointCloudActivity extends Activity implements OnClickListener {
         mThirdPersonButton.setOnClickListener(this);
         mTopDownButton = (Button) findViewById(R.id.top_down_button);
         mTopDownButton.setOnClickListener(this);
+        mExportDepthImage = (Button) findViewById(R.id.export_depth_image);
+        mExportDepthImage.setOnClickListener(this);
 
         PackageInfo packageInfo;
         try {
@@ -446,7 +459,7 @@ public class PointCloudActivity extends Activity implements OnClickListener {
     /**
      * Sets Rajawalisurface view and its renderer. This is ideally called only once in onCreate.
      */
-    private PointCloudRajawaliRenderer setupGLViewAndRenderer(){
+    private PointCloudRajawaliRenderer setupGLViewAndRenderer() {
         PointCloudRajawaliRenderer renderer = new PointCloudRajawaliRenderer(this);
         RajawaliSurfaceView glView = (RajawaliSurfaceView) findViewById(R.id.gl_surface_view);
         glView.setEGLContextClientVersion(2);
@@ -457,20 +470,21 @@ public class PointCloudActivity extends Activity implements OnClickListener {
     /**
      * Sets up TangoUX layout and sets its listener.
      */
-    private TangoUx setupTangoUxAndLayout(){
+    private TangoUx setupTangoUxAndLayout() {
         TangoUxLayout uxLayout = (TangoUxLayout) findViewById(R.id.layout_tango);
         TangoUx tangoUx = new TangoUx(this);
         tangoUx.setLayout(uxLayout);
         tangoUx.setUxExceptionEventListener(mUxExceptionListener);
-        return  tangoUx;
+        return tangoUx;
     }
 
     /**
      * Calculates the average depth from a point cloud buffer
+     *
      * @param pointCloudBuffer
      * @return Average depth.
      */
-    private float getAveragedDepth(FloatBuffer pointCloudBuffer){
+    private float getAveragedDepth(FloatBuffer pointCloudBuffer) {
         int pointCount = pointCloudBuffer.capacity() / 3;
         float totalZ = 0;
         float averageZ = 0;
@@ -479,6 +493,6 @@ public class PointCloudActivity extends Activity implements OnClickListener {
         }
         if (pointCount != 0)
             averageZ = totalZ / pointCount;
-        return  averageZ;
+        return averageZ;
     }
 }
